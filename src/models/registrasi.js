@@ -1,4 +1,5 @@
-const {Schema, model} = require('../connection/mongoAtlasCon');
+// const {Schema, model} = require('../connection/mongoAtlasCon');
+const {Schema, model} = require('../connection/mongoContabo');
 const { log } = require('mercedlogger');
 const myResponse = require('../utils/myResponse');
 
@@ -6,26 +7,59 @@ connDefault = require('../connection/mysqlDefault');
 connProxy = require('../connection/mysqlProxy');
 
 const ProdukdiBeli = new Schema ({
-  cIdBundling: {type: Number},
-  cIdProduk: {type: Number},
-  cIdJenisProduk: {type: Number},
-  cIdKurikulum: {type: Number},
-  cNamaProduk: {type: String},
-  cNamaJenisProduk: {type: String},
-  cNamaKurikulum: {type: String},
-  cStatus: {type: String}
+  c_IdBundling: {type: Number},
+  c_IdJenisProduk: {type: Number},
+  c_IdKomponenProduk: {type: Number},
+  c_IdSekolahKelas: {type: Number},
+  c_NamaBundling: {type: String},
+  c_NamaJenisProduk: {type: String},
+  c_NamaProduk: {type: String},
+  c_TanggalAkhir: {type: String},
+  c_TanggalAwal: {type: String}
+})
+
+const TargetPengerjaanMapel = new Schema ({
+  cidmapel: {type: Number},
+  targetharian: {type: Number},
+  targetmingguan: {type: Number},
+  targetbulanan: {type: Number}
 })
 
 const RegisSchema = new Schema ({
-  cNoRegistrasi: {type: String, required: true, unique: true},
-  cNamaLengkap: {type: String, required: true},
-  cSiapa: {type: String, required: true},
-  cImei: {type: String, required: true},
-  cNomorHP: {type: String, required: true},
-  produkdibeli: [ProdukdiBeli]
+  c_Statusbayar: {type: String},
+  daftarProduk: [ProdukdiBeli],
+  Databaru: {type: String},
+  email: {type: String},
+  emailOrtu: {type: String},
+  idGedung: {type: Number},
+  idKelas: {id: {type: Number},namaKelas: {type: String}},
+  idKota: {type: Number},
+  idKota: {type: Number},
+  idSekolahKelas: {id: {type: Number},namaSekolahKelas: {type: String}},
+  imei: {type: String},
+  jenisKelas: {type: String},
+  jobOrtu: {type: String},
+  kirimOTP: {type: String},
+  lastLogin: {type: String},
+  namaGedung: {type: String},
+  namaKota: {type: String},
+  namaLengkap: {type: String, required: true},
+  namaSekolah: {type: String},
+  nomorHp: {type: String},
+  nomorHpOrtu: {type: String},
+  noRegistrasi: {type: String, required: true, unique: true},
+  pilihanPTN: {type: String},
+  siapa: {type: String, required: true, unique: true},
+  statusBayar: {type: String},
+  tahunAjaran: {type: String},
+  targetPerKelompokUji: {type: String},
+  targetPerMapel: [TargetPengerjaanMapel],
+  targetsoal: {type: String},
+  tokenJWT: {type: String},
+  wakttu: {type: String}
 })
 
-const Regis = model("register", RegisSchema)
+const Regis = model("register_siswa", RegisSchema)
 
 
 //-------------- MODEL FOR mySQL Database ---------------------------

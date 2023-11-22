@@ -18,8 +18,8 @@ mongoose.connect(
 
 mongoose.pluralize(null);
 mongoose.connection
-.on('open', () => log.green('DATABASE STATE', 'Connection Open'))
-.on('close', () => log.magenta('DATABASE STATE', 'Connection Close'))
-.on('error', (error) => log.red('DATABASE STATE', error))
+.on('open', () => log.green('DATABASE STATE', 'Connection Atlas Open'))
+.on('close', () => log.magenta('DATABASE STATE', 'Connection Atlas Close'))
+.on('error', (error) => log.red('DATABASE STATE Atlas', error))
 
 module.exports = mongoose
