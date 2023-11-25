@@ -6,6 +6,8 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cors = require('cors');
 const esm = require('express-status-monitor');
+const morgan = require('morgan');
+
 // const apicache = require('apicache');
 
 dotenv.config({path: './config.env'});
@@ -47,6 +49,11 @@ app.use(helmet());
 // express status monitor (http://ip:port/status)
 app.use(esm());
 
+// Logging
+// app.use(morgan('dev'));
+// hanya menampilkan kode yang error 
+morgan('combined', { skip: function (req, res) { return res.statusCode < 400 } })
+app.use(morgan('combined'));
 
 app.use('/', require ('./src/routes/index'));
 

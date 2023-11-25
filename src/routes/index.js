@@ -15,10 +15,15 @@ const cacheSuccess = cache('5 minutes', onlyStatus200);
 router.get('/checkApiBearer',[bearerAuth], checkRoute.show);
 router.get('/checkApiBasic',[basicAuth], checkRoute.show);
 
-router.get('/regisall',[bearerAuth], regisRoute.findAll);
 router.post('/addsiswa',[bearerAuth], regisRoute.addSiswa);
 
 router.post('/topicRegistrasi',[bearerAuth, validator.validateTopicRegistrasi, validator.checkValidationResult], regisRoute.topicRegis);
+router.get('/siswa',[bearerAuth], regisRoute.findAll);
+router.get('/siswa/reg/:noreg',[bearerAuth], regisRoute.findAllByNoregistrasi);
+router.get('/siswa/gedung/:idgedung',[bearerAuth], regisRoute.findAllByGedung);
+router.get('/siswa/gedung/:idgedung/tk/:tk',[bearerAuth], regisRoute.findAllByGedungTingkatSekolah);
+router.put('/resetsiswa',[bearerAuth, validator.validateNoRegistrasi, validator.checkValidationResult], regisRoute.resetDevice);
+router.put('/resetbundel',[bearerAuth, validator.validateResetBundling, validator.checkValidationResult], regisRoute.resetBundling);
 
 
 router.get('/getmysql',[bearerAuth], regisRoute.getAllMySQL);

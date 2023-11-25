@@ -21,3 +21,12 @@ module.exports.validateTopicRegistrasi = [
   check('id').isLength({min: 1}).withMessage('Id tidak ada')
 ]
 
+module.exports.validateNoRegistrasi = [
+  check('noreg').isLength({min: 1}).withMessage('No Registrasi tidak ada')
+]
+
+module.exports.validateResetBundling = [
+  check('noreg').isLength({min: 1}).withMessage('No Registrasi tidak ada'),
+  check('idbundling').isLength({min: 1}).withMessage('ID Bundling tidak ada')
+]
+
