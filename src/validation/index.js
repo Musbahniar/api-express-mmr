@@ -27,6 +27,7 @@ module.exports.validateNoRegistrasi = [
 
 module.exports.validateResetBundling = [
   check('noreg').isLength({min: 1}).withMessage('No Registrasi tidak ada'),
-  check('idbundling').isLength({min: 1}).withMessage('ID Bundling tidak ada')
+  check('idbundlinglama').isLength({min: 1}).withMessage('ID Bundling lama tidak ada'),
+  check('idbundlingbaru').isLength({min: 1}).withMessage('ID Bundling baru tidak ada')
 ]
 

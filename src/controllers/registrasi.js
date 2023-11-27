@@ -125,8 +125,7 @@ exports.addSiswa = async (req, res) => {
       status: 'error',
       data: error
     })
-  }
-  
+  } 
 }
 
 exports.topicRegis = async (req, res) => {
@@ -159,12 +158,34 @@ exports.topicRegis = async (req, res) => {
 }
 
 exports.resetBundling = async (req, res) => {
-  // console.log(req.body);
-  res.status(200).send({
-    status: 200,
-    message: 'oke',
-    pager: {}
-  })
+  const {noreg, idbundlinglama, idbundlingbaru} = req.body;
+  const hasil = await mdlRegis.queryBundel(idbundlingbaru);
+  if(!hasil.length) {
+    myResponse.createResponse(res, 200, 'success', 'Data bundling baru tidak tersedia', {});
+  } else {
+    try {
+      const regis = await mdlRegis.Regis.updateMany(
+        {"noRegistrasi": noreg},
+        {$pull: {"daftarProduk": {"c_IdBundling": idbundlinglama}}},
+        {multi: true}
+      ).exec();
+      if(regis.modifiedCount > 0) {
+        try {
+          await mdlRegis.Regis.updateMany(
+            {"noRegistrasi": noreg},
+            {$push: {"daftarProduk": hasil}}
+          ).exec();
+          myResponse.createResponse(res, 200, 'success', 'Reset bundling berhasil', {});
+        } catch(errUp) {
+          myResponse.createResponse(res, 500, 'error', errUp, {});
+        }
+      } else {
+        myResponse.createResponse(res, 200, 'success', 'Tidak ada bundling yang direset', {});
+      }
+    } catch (err) {
+      myResponse.createResponse(res, 500, 'error', err, {});
+    }
+  }
 }
 
 exports.getAllMySQL = async (req, res) => {

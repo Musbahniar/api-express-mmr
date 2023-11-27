@@ -7,6 +7,8 @@ const hpp = require('hpp');
 const cors = require('cors');
 const esm = require('express-status-monitor');
 const morgan = require('morgan');
+const path = require('path');
+const rfs = require('rotating-file-stream');
 
 // const apicache = require('apicache');
 
@@ -25,9 +27,11 @@ app.use(
 
 // Membatasi akses API dengan IP yang sama
 const limiter = rateLimit({
-  max: 150,
+  max: 100,
   windowMs: 60 * 60 * 1000,
-  message: 'Too Many Request from this IP, please trt again in an hour'
+  message: 'Too Many Request from this IP, please trt again in an hour',
+  standardHeaders: true,
+  legacyHeaders: false
 });
 app.use(limiter);
 
@@ -49,12 +53,17 @@ app.use(helmet());
 // express status monitor (http://ip:port/status)
 app.use(esm());
 
-// Logging
-// app.use(morgan('dev'));
-// hanya menampilkan kode yang error 
-morgan('combined', { skip: function (req, res) { return res.statusCode < 400 } })
+// Create Login a rotating write stream
+var accessLogStream = rfs.createStream('access.log', {
+  interval: '1d', // rotate daily
+  path: path.join(__dirname, 'log')
+});
+
+// setup the logger
+// app.use(morgan('combined', { stream: accessLogStream }))
 app.use(morgan('combined'));
 
+// Routes
 app.use('/', require ('./src/routes/index'));
 
 module.exports = app;

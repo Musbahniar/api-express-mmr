@@ -1,9 +1,9 @@
-const dotenv = require('dotenv');
+// const dotenv = require('dotenv');
 const { log } = require('mercedlogger');
 const {Schema, model} = require('../connection/mongoAtlasCon');
-// const {Schema, model} = require('../connection/mongoContabo');
-const myResponse = require('../utils/myResponse');
 const myFungsi = require('../utils/myFunction');
+// const {Schema, model} = require('../connection/mongoContabo');
+// const myResponse = require('../utils/myResponse');
 
 // connDefault = require('../connection/mysqlDefault');
 // connProxy = require('../connection/mysqlProxy');
@@ -65,7 +65,7 @@ const RegisSchema = new Schema ({
 const Regis = model("register_siswa", RegisSchema)
 
 
-//-------------- MODEL FOR mySQL Database ---------------------------
+//-------------- MODEL FOR mySQL Database -------------------------------------------------------------------
 modelTopicRegis = async (data) => {
   try {
     const idPembelian = data.id
@@ -174,17 +174,6 @@ modelTopicRegis = async (data) => {
   }
 }
 
-modelGetAllMySQL = async () => {
-  try {
-    var kueri = `SELECT cNoRegister,cIdsekolahkelas FROM t_peringkatnew_20231022 LIMIT 10`;
-    const hasilKueri = await connDefault.query(kueri);
-    return hasilAkhir = {status: 'oke', databalik: hasilKueri};
-  } catch (err) {
-    log.yellow(`Error occurred: `, err.message);
-    return hasilAkhir = {status: 'err', databalik: err.message};
-  }
-}
-
 queryBundel = (idBundling) => {
   return new Promise ((resolve, reject) => {
     connNode.query(`
@@ -241,4 +230,4 @@ queryTargetMapel = (tahunAjaran, idSekolahKelas) => {
   })
 }
 
-module.exports = {Regis, modelTopicRegis}
+module.exports = {Regis, modelTopicRegis, queryBundel}
